@@ -8,6 +8,8 @@ const createBooking = (io) => async (req, res) => {
     try {
         const { source, destination } = req.body;
 
+        console.log("source>>", source, destination);
+
         const booking = await bookingService.createBooking({
             passengerId: req.user._id,
             source,
@@ -30,8 +32,9 @@ const createBooking = (io) => async (req, res) => {
         return res.status(StatusCodes.OK).send({SuccessResponse});
 
     } catch (error) {
+        console.log("error: ", error);
         ErrorResponse.error = error;
-        return res.status(error.statusCode).send({ErrorResponse});
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ErrorResponse});
     }
 };
 

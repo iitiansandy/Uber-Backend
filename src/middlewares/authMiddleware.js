@@ -11,18 +11,20 @@ const { SuccessResponse, ErrorResponse } = require('../utils/common');
 // AUTH MIDDLEWARE
 const authMiddleware = async (req, res, next) => {
     try {
-        const token = req.header('Authorization')?.replaceOne('Bearer', '');
+        console.log("hi")
+        const token = req.headers["authorization"].split(" ")[1]; //req.header('Authorization')?.replaceOne('Bearer', '');
         if (!token) {
             throw new AppError('Access denied', StatusCodes.FORBIDDEN);
         };
 
+        console.log("token:", token);
         const verifiedUser = jwt.verify(token, tokenSecretKey);
         req.user = await User.findById(verifiedUser.id);
 
         next();
     } catch (error) {
         ErrorResponse.error = error;
-        return res.status(error.statusCode).send({ErrorResponse});
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ErrorResponse});
     }
 };
 
