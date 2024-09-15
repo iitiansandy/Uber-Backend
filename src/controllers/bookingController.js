@@ -8,8 +8,6 @@ const createBooking = (io) => async (req, res) => {
     try {
         const { source, destination } = req.body;
 
-        console.log("source>>", source, destination);
-
         const booking = await bookingService.createBooking({
             passengerId: req.user._id,
             source,

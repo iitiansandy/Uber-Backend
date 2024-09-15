@@ -11,7 +11,7 @@ const register = async (req, res) => {
         return res.status(StatusCodes.OK).send({SuccessResponse});
     } catch (error) {
         ErrorResponse.error = error;
-        return res.status(error.statusCode).send({ErrorResponse});
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ErrorResponse});
     }
 };
 
